@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Deal</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ deal.id }}</td>
+            </tr>
+            <tr>
+                <th>Uid</th>
+                <td>{{ deal.uid }}</td>
+            </tr>
+            <tr>
+                <th>Deal_done</th>
+                <td>{% if deal.dealdone %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Seed_price</th>
+                <td>{{ deal.seedprice }}</td>
+            </tr>
+            <tr>
+                <th>Delivery_price</th>
+                <td>{{ deal.deliveryprice }}</td>
+            </tr>
+            <tr>
+                <th>Shipment_price</th>
+                <td>{{ deal.shipmentprice }}</td>
+            </tr>
+            <tr>
+                <th>Storage_price</th>
+                <td>{{ deal.storageprice }}</td>
+            </tr>
+            <tr>
+                <th>Oil_content</th>
+                <td>{{ deal.oilcontent }}</td>
+            </tr>
+            <tr>
+                <th>Updated_at</th>
+                <td>{{ deal.updatedat }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('deal_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('deal_edit', { 'id': deal.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

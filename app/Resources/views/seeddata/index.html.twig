@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Seeddatas list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Uid</th>
+                <th>Oil_yield</th>
+                <th>Oilmeal_yield</th>
+                <th>Oil_price</th>
+                <th>Oilmeal_proce</th>
+                <th>Processing_cost</th>
+                <th>Usdrub</th>
+                <th>Updated_at</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for seedDatum in seedDatas %}
+            <tr>
+                <td><a href="{{ path('seeddata_show', { 'id': seedDatum.id }) }}">{{ seedDatum.id }}</a></td>
+                <td>{{ seedDatum.uid }}</td>
+                <td>{{ seedDatum.oilyield }}</td>
+                <td>{{ seedDatum.oilmealyield }}</td>
+                <td>{{ seedDatum.oilprice }}</td>
+                <td>{{ seedDatum.oilmealproce }}</td>
+                <td>{{ seedDatum.processingcost }}</td>
+                <td>{{ seedDatum.usdrub }}</td>
+                <td>{{ seedDatum.updatedat }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('seeddata_show', { 'id': seedDatum.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('seeddata_edit', { 'id': seedDatum.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('seeddata_new') }}">Create a new seedDatum</a>
+        </li>
+    </ul>
+{% endblock %}

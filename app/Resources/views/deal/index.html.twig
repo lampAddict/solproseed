@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Deals list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Uid</th>
+                <th>Deal_done</th>
+                <th>Seed_price</th>
+                <th>Delivery_price</th>
+                <th>Shipment_price</th>
+                <th>Storage_price</th>
+                <th>Oil_content</th>
+                <th>Updated_at</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for deal in deals %}
+            <tr>
+                <td><a href="{{ path('deal_show', { 'id': deal.id }) }}">{{ deal.id }}</a></td>
+                <td>{{ deal.uid }}</td>
+                <td>{% if deal.dealdone %}Yes{% else %}No{% endif %}</td>
+                <td>{{ deal.seedprice }}</td>
+                <td>{{ deal.deliveryprice }}</td>
+                <td>{{ deal.shipmentprice }}</td>
+                <td>{{ deal.storageprice }}</td>
+                <td>{{ deal.oilcontent }}</td>
+                <td>{{ deal.updatedat }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('deal_show', { 'id': deal.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('deal_edit', { 'id': deal.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('deal_new') }}">Create a new deal</a>
+        </li>
+    </ul>
+{% endblock %}

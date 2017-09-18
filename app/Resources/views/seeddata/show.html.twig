@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Seeddatum</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ seedDatum.id }}</td>
+            </tr>
+            <tr>
+                <th>Uid</th>
+                <td>{{ seedDatum.uid }}</td>
+            </tr>
+            <tr>
+                <th>Oil_yield</th>
+                <td>{{ seedDatum.oilyield }}</td>
+            </tr>
+            <tr>
+                <th>Oilmeal_yield</th>
+                <td>{{ seedDatum.oilmealyield }}</td>
+            </tr>
+            <tr>
+                <th>Oil_price</th>
+                <td>{{ seedDatum.oilprice }}</td>
+            </tr>
+            <tr>
+                <th>Oilmeal_proce</th>
+                <td>{{ seedDatum.oilmealproce }}</td>
+            </tr>
+            <tr>
+                <th>Processing_cost</th>
+                <td>{{ seedDatum.processingcost }}</td>
+            </tr>
+            <tr>
+                <th>Usdrub</th>
+                <td>{{ seedDatum.usdrub }}</td>
+            </tr>
+            <tr>
+                <th>Updated_at</th>
+                <td>{{ seedDatum.updatedat }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('seeddata_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('seeddata_edit', { 'id': seedDatum.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
