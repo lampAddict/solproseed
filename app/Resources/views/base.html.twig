@@ -6,87 +6,47 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         {% block stylesheets %}{% endblock %}
+        <link href="{{ asset('static/css/style.css') }}" type="text/css" rel="stylesheet" />
+        <!--[if IE]>
+        <link href="{{ asset('static/css/ie.css') }}" type="text/css" rel="stylesheet" />
+        <![endif]-->
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
 
-        <style>
-            @import url(http://fonts.googleapis.com/css?family=Roboto);
-            /****** LOGIN ******/
-            .login-container {
-                padding: 30px;
-                max-width: 350px;
-                width: 100% !important;
-                background-color: #F7F7F7;
-                margin: 100px auto;
-                border-radius: 2px;
-                box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-                overflow: hidden;
-                font-family: roboto;
-            }
-            .login-container h1 {
-                text-align: center;
-                font-size: 1.8em;
-                font-family: roboto;
-            }
-            .login-container input[type=submit] {
-                width: 100%;
-                display: block;
-                margin-bottom: 10px;
-                position: relative;
-            }
-            .login-container input[type=text], input[type=email], input[type=password] {
-                height: 44px;
-                font-size: 16px;
-                width: 100%;
-                margin-bottom: 10px;
-                -webkit-appearance: none;
-                background: #fff;
-                border: 1px solid #d9d9d9;
-                border-top: 1px solid #c0c0c0;
-                /* border-radius: 2px; */
-                padding: 0 8px;
-                box-sizing: border-box;
-                -moz-box-sizing: border-box;
-            }
-            .login-container input[type=text]:hover, input[type=password]:hover {
-                border: 1px solid #b9b9b9;
-                border-top: 1px solid #a0a0a0;
-                -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
-                -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
-                box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
-            }
-            .login-submit {
-                /* border: 1px solid #3079ed; */
-                border: 0px;
-                color: #fff;
-                text-shadow: 0 1px rgba(0,0,0,0.1);
-                background-color: #4d90fe;
-                padding: 17px 0px;
-                font-family: roboto;
-                font-size: 14px;
-                /* background-image: -webkit-gradient(linear, 0 0, 0 100%,   from(#4d90fe), to(#4787ed)); */
-            }
-            .login-submit:hover {
-                /* border: 1px solid #2f5bb7; */
-                border: 0px;
-                text-shadow: 0 1px rgba(0,0,0,0.3);
-                background-color: #357ae8;
-                /* background-image: -webkit-gradient(linear, 0 0, 0 100%,   from(#4d90fe), to(#357ae8)); */
-            }
-            .login-container a {
-                text-decoration: none;
-                color: #666;
-                font-weight: 400;
-                text-align: center;
-                display: inline-block;
-                opacity: 0.6;
-                transition: opacity ease 0.5s;
-            }
-            .login-help{
-                font-size: 12px;
-            }
-        </style>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <div id="topMenu">
+                {% block topMenu %}
+                    <ul class="topnav" id="menu">
+                        <li>
+                            {% if app.request.get('_route') == 'mainpage' %}
+                                <a class="active" href="/">Главная</a>
+                            {% else %}
+                                <a href="/">Главная</a>
+                            {% endif %}
+                        </li>
+
+                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        <li>
+                            {% if app.request.get('_route') == 'users' %}
+                                <a class="active" href="{{ url("users") }}">Пользователи</a>
+                            {% else %}
+                                <a href="{{ url("users") }}">Пользователи</a>
+                            {% endif %}
+                        </li>
+                        {% endif %}
+
+                        <li class="loggedUser">
+                            Здравствуйте, {{ app.user.username }} <a href="{{ logout_path('main') }}">Выход</a>
+                        </li>
+
+                        <li class="icon">
+                            <a href="javascript:void(0);" style="font-size:15px;" onclick="showMenuItems()"><i class="fa fa-bars"></i></a>
+                        </li>
+                    </ul>
+                {% endblock %}
+            </div>
+        {% endif %}
 
         {% for type, messages in app.session.flashBag.all %}
             {% for message in messages %}
@@ -100,7 +60,10 @@
 
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
-        <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
         <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="{{ asset('static/js/main.js') }}"></script>
+        <script src="{{ asset('static/js/fontAwesome.js') }}"></script>
     </body>
 </html>
