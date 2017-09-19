@@ -1,0 +1,11 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{{ form_start(form, { 'action': path('user_edit', { 'id': id }), 'attr': { 'class': '' } }) }}
+    <div class="login-container">
+        <h1>Изменить данные пользователя</h1><br>
+        {{ form_widget(form) }}
+        <div>
+            <input type="submit" class="login login-submit" value="Изменить" />
+        </div>
+    </div>
+{{ form_end(form) }}

@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="wrapper" data-user="{{ app.user.id }}">
+        <div style="margin-left: 2em">
+            <a href="register/">Создать нового пользователя</a>
+        </div>
+        <div id="container">
+            <table cellpadding="0" cellspacing="0" class="data-content">
+                <thead>
+                <tr>
+                    <th>Пользователь</th>
+                    <th>e-mail</th>
+                    <th>Роли</th>
+                    <th>Назначить</th>
+                    <th>Снять</th>
+                    <th>Действие</th>
+                    <th>Блокировка</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td align="center"><a href="{{ path('user_edit', { 'id': user['id'] }) }}">{{ user['name'] }}</a></td>
+                        <td align="center">{{ user['login'] }}</td>
+                        <td align="center" class="roles-{{ user['id'] }}">
+                            {% if user['roles'] is not empty %}
+                                <table cellpadding="0" cellspacing="0" class="userRolesTbl">
+                                {% for role in user['roles'] %}
+                                    {% if role != 'ROLE_USER' %}
+                                        <tr>
+                                            <td>{{ captionRoles[ role ] }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                </table>
+                            {% endif %}
+                        </td>
+                        <td align="right">
+                            <select id="addRole">
+                                <option selected="selected"></option>
+                                {% for role in roles %}
+                                    <option value="{{ role }}">{{ captionRoles[ role ] }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td align="right">
+                            <select id="removeRole">
+                                <option selected="selected"></option>
+                                {% for role in roles %}
+                                    {% if role != 'ROLE_USER' %}
+                                        <option value="{{ role }}">{{ captionRoles[ role ] }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td align="center"><a class="btn btn-default setUserRole" user-data="{{ user['id'] }}">Применить</a></td>
+                        <td align="center">
+                            <a class="btn btn-default setUserBlock" user-data="{{ user['id'] }}">{% if user['active'] %}За{% else %}Раз{% endif %}блокировать</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        #wrapper { background: #FFF; margin: 1em auto; max-width: 1000px; width: 95%; }
+        #container { padding: 2em; }
+
+        @media (min-width: 844px) {
+            #wrapper { width: 100%; margin: 2em auto; }
+            @-webkit-keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
+            @keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
+        }
+    </style>
+{% endblock %}
