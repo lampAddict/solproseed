@@ -42,7 +42,8 @@ class IndexController extends Controller
             if( !empty($seedData) ){
                 /** @var $seed_data \AppBundle\Entity\SeedData */
                 $seed_data = $seedData[0];
-                $revenue = (($seed_data->getOilPrice() - 15)*$seed_data->getUsdrub() - 2000)*$seed_data->getOilYield() + ($seed_data->getOilmealPrice()*$seed_data->getUsdrub() - 2000)*$seed_data->getOilmealYield();
+
+                $revenue = (((intval($seed_data->getOilPrice()) - 15)*intval($seed_data->getUsdrub()) - 2000)*floatval($seed_data->getOilYield()) + (intval($seed_data->getOilmealPrice())*intval($seed_data->getUsdrub()) - 2000)*floatval($seed_data->getOilmealYield()))/100;
             }
 
             $form = $this->createForm(

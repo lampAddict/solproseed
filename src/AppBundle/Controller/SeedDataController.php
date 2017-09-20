@@ -56,23 +56,18 @@ class SeedDataController extends Controller
             $seedData = $stmt->fetchAll();
 
             /* @var $seedDatum \AppBundle\Entity\SeedData */
+            $data = $request->request->get('appbundle_seeddata');
             if( !empty($seedData) ){
-                $data = $request->request->get('appbundle_seeddata');
 
                 $seedDatum = $em->getRepository('AppBundle\Entity\SeedData')->findOneBy(['id'=>$seedData[0]['id']]);
 
-                $seedDatum->setOilPrice( $data['oil_price'] );
-                $seedDatum->setOilYield( $data['oil_yield'] );
-                $seedDatum->setOilmealPrice( $data['oilmeal_price'] );
-                $seedDatum->setOilmealYield( $data['oilmeal_yield'] );
-                $seedDatum->setProcessingCost( $data['processing_cost'] );
-                $seedDatum->setUsdrub( $data['usdrub'] );
+                $this->updateSeedData($seedDatum, $data);
             }
             else{
 
-                $seedDatum->setUid( $this->getUser()->getId() );
-                $seedDatum->setUpdatedAt( new \DateTime());
+                $seedDatum = $this->updateSeedData($seedDatum, $data);
 
+                $seedDatum->setUid( $this->getUser()->getId() );
                 $em->persist($seedDatum);
             }
 
@@ -85,6 +80,19 @@ class SeedDataController extends Controller
             'seedDatum' => $seedDatum,
             'form' => $form->createView(),
         ));
+    }
+
+    private function updateSeedData($seedDatum, $data){
+        /* @var $seedDatum \AppBundle\Entity\SeedData */
+        $seedDatum->setOilPrice( $data['oil_price'] );
+        $seedDatum->setOilYield( $data['oil_yield'] );
+        $seedDatum->setOilmealPrice( $data['oilmeal_price'] );
+        $seedDatum->setOilmealYield( $data['oilmeal_yield'] );
+        $seedDatum->setProcessingCost( $data['processing_cost'] );
+        $seedDatum->setUsdrub( $data['usdrub'] );
+        $seedDatum->setUpdatedAt( new \DateTime());
+
+        return $seedDatum;
     }
 
     /**

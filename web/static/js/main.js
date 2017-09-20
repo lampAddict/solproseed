@@ -8,7 +8,7 @@ function showMenuItems() {
 }
 
 $( document ).ready(function(){
-    //users page
+    //users page set role routine
     $('.btn.setUserRole').click(function(e){
         $.ajax({
             method: 'POST',
@@ -29,7 +29,7 @@ $( document ).ready(function(){
             console.log(response.msg);
         });
     });
-
+    //.. unset role routine
     $('.btn.setUserBlock').click(function(e){
         $this = $(e.currentTarget);
         $.ajax({
@@ -47,6 +47,21 @@ $( document ).ready(function(){
         .fail(function( response ){
             console.log('FAILED to deal with user block');
             console.log(response.msg);
+        });
+    });
+
+    //admin main page
+    $.each($('#appbundle_seeddata input'), function(indx, elt){
+        $(elt).change(function(){
+            var revenue = 0,
+                oilPrice = parseInt($('#appbundle_seeddata_oil_price').val()) || 0,
+                oilYield = parseFloat($('#appbundle_seeddata_oil_yield').val()) || 0,
+                oilMealPrice = parseInt($('#appbundle_seeddata_oilmeal_price').val()) || 0,
+                oilMealYield = parseFloat($('#appbundle_seeddata_oilmeal_yield').val()) || 0,
+                usdrub = parseInt($('#appbundle_seeddata_usdrub').val()) || 0
+            ;
+
+            $('#appbundle_seeddata_revenue').val( (((oilPrice - 15)*usdrub - 2000)*oilYield + (oilMealPrice*usdrub - 2000)*oilMealYield)/100 );
         });
     });
 });
