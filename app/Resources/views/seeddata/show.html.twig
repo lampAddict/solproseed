@@ -27,7 +27,7 @@
             </tr>
             <tr>
                 <th>Oilmeal_proce</th>
-                <td>{{ seedDatum.oilmealproce }}</td>
+                <td>{{ seedDatum.oilmealprice }}</td>
             </tr>
             <tr>
                 <th>Processing_cost</th>
@@ -39,7 +39,7 @@
             </tr>
             <tr>
                 <th>Updated_at</th>
-                <td>{{ seedDatum.updatedat }}</td>
+                <td>{{ seedDatum.updatedat | date('H:i:s d-m-Y') }}</td>
             </tr>
         </tbody>
     </table>

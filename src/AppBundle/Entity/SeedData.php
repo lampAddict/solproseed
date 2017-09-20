@@ -40,7 +40,7 @@ class SeedData
     /**
      * @ORM\Column(type="float")
      */
-    protected $oilmeal_proce;
+    protected $oilmeal_price;
 
     /**
      * @ORM\Column(type="float")
@@ -164,30 +164,6 @@ class SeedData
     }
 
     /**
-     * Set oilmealProce
-     *
-     * @param float $oilmealProce
-     *
-     * @return SeedData
-     */
-    public function setOilmealProce($oilmealProce)
-    {
-        $this->oilmeal_proce = $oilmealProce;
-
-        return $this;
-    }
-
-    /**
-     * Get oilmealProce
-     *
-     * @return float
-     */
-    public function getOilmealProce()
-    {
-        return $this->oilmeal_proce;
-    }
-
-    /**
      * Set processingCost
      *
      * @param float $processingCost
@@ -257,5 +233,29 @@ class SeedData
     public function getUpdatedAt()
     {
         return $this->updated_at;
+    }
+
+    /**
+     * Set oilmealPrice
+     *
+     * @param float $oilmealPrice
+     *
+     * @return SeedData
+     */
+    public function setOilmealPrice($oilmealPrice)
+    {
+        $this->oilmeal_price = $oilmealPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get oilmealPrice
+     *
+     * @return float
+     */
+    public function getOilmealPrice()
+    {
+        return $this->oilmeal_price;
     }
 }

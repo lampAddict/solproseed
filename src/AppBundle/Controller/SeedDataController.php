@@ -39,16 +39,46 @@ class SeedDataController extends Controller
      */
     public function newAction(Request $request)
     {
-        $seedDatum = new SeedData();
-        $form = $this->createForm('AppBundle\Form\SeedDataType', $seedDatum);
+        $form = $this->createForm('AppBundle\Form\SeedDataType');
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        $seedDatum = new SeedData();
+
+        if(
+               $form->isSubmitted()
+            && $form->isValid()
+        ){
             $em = $this->getDoctrine()->getManager();
-            $em->persist($seedDatum);
+
+            $sql = 'SELECT s.* from seed_data s WHERE s.updated_at >= DATE_FORMAT(NOW(),"%Y-%m-%d 00:00:00") AND s.updated_at <= DATE_FORMAT(NOW(),"%Y-%m-%d 23:59:59") ORDER BY updated_at DESC LIMIT 1';
+            $stmt = $em->getConnection()->prepare($sql);
+            $stmt->execute();
+            $seedData = $stmt->fetchAll();
+
+            /* @var $seedDatum \AppBundle\Entity\SeedData */
+            if( !empty($seedData) ){
+                $data = $request->request->get('appbundle_seeddata');
+
+                $seedDatum = $em->getRepository('AppBundle\Entity\SeedData')->findOneBy(['id'=>$seedData[0]['id']]);
+
+                $seedDatum->setOilPrice( $data['oil_price'] );
+                $seedDatum->setOilYield( $data['oil_yield'] );
+                $seedDatum->setOilmealPrice( $data['oilmeal_price'] );
+                $seedDatum->setOilmealYield( $data['oilmeal_yield'] );
+                $seedDatum->setProcessingCost( $data['processing_cost'] );
+                $seedDatum->setUsdrub( $data['usdrub'] );
+            }
+            else{
+
+                $seedDatum->setUid( $this->getUser()->getId() );
+                $seedDatum->setUpdatedAt( new \DateTime());
+
+                $em->persist($seedDatum);
+            }
+
             $em->flush();
 
-            return $this->redirectToRoute('seeddata_show', array('id' => $seedDatum->getId()));
+            return $this->redirectToRoute('mainpage');
         }
 
         return $this->render('seeddata/new.html.twig', array(

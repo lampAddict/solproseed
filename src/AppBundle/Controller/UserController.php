@@ -2,20 +2,32 @@
 
 namespace AppBundle\Controller;
 
-
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
-
 class UserController extends Controller
 {
+    /**
+     * Checks if user allowed to do things
+     */
+    private function checkUserAuth(){
+        //Check if user authenticated
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
+
+        //Check user's role
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
+    }
+
     /**
      * Show the user.
      *
@@ -24,10 +36,11 @@ class UserController extends Controller
      */
     public function showAction($id)
     {
+        $this->checkUserAuth();
+
         $userManager = $this->get('fos_user.user_manager');
         $user = $userManager->findUserBy(['id' => $id]);
 
-//        $user = $this->getUser();
         if (!is_object($user) || !$user instanceof UserInterface) {
             throw new AccessDeniedException('Такого пользователя не существует.');
         }
@@ -50,6 +63,8 @@ class UserController extends Controller
      */
     public function editAction(Request $request, $id = null)
     {
+        $this->checkUserAuth();
+
         $userManager = $this->get('fos_user.user_manager');
         $user = $userManager->findUserBy(['id' => $id]);
 
@@ -95,12 +110,7 @@ class UserController extends Controller
     public function usersAction(Request $request)
     {
 
-        //Check if user authenticated
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            throw $this->createAccessDeniedException();
-        }
-
-        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
+        $this->checkUserAuth();
 
         $em = $this->getDoctrine()->getManager();
 
@@ -114,7 +124,7 @@ class UserController extends Controller
         foreach ($users as $user){
             /* @var $user \AppBundle\Entity\User */
             $_users[] = [
-                'id'=>$user->getId()
+                 'id'=>$user->getId()
                 ,'login'=>$user->getEmail()
                 ,'name'=>$user->getUsername()
                 ,'roles'=>$user->getRoles()
@@ -122,12 +132,12 @@ class UserController extends Controller
             ];
         }
 
-        $_roles = $this->container->getParameter('security.role_hierarchy.roles');
+        //$_roles = $this->container->getParameter('security.role_hierarchy.roles');
 
         return $this->render('user/users.html.twig', array(
-            'users' => $_users
-        ,'roles' => ['ROLE_ADMIN']
-        ,'captionRoles' => ['ROLE_SUPER_ADMIN'=>'Администратор', 'ROLE_ADMIN'=>'Менеджер', 'ROLE_USER'=>'Пользователь', ''=>'']
+             'users' => $_users
+            ,'roles' => ['ROLE_ADMIN']
+            ,'captionRoles' => ['ROLE_SUPER_ADMIN'=>'Администратор', 'ROLE_ADMIN'=>'Менеджер', 'ROLE_USER'=>'Пользователь', ''=>'']
         ));
     }
 
@@ -139,12 +149,7 @@ class UserController extends Controller
      */
     public function setUserRoleAction(Request $request){
 
-        //Check if user authenticated
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            throw $this->createAccessDeniedException();
-        }
-
-        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
+        $this->checkUserAuth();
 
         $em = $this->getDoctrine()->getManager();
 
@@ -216,12 +221,7 @@ class UserController extends Controller
      */
     public function setUserBlockAction(Request $request){
 
-        //Check if user authenticated
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            throw $this->createAccessDeniedException();
-        }
-
-        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
+        $this->checkUserAuth();
 
         $em = $this->getDoctrine()->getManager();
 

@@ -13,7 +13,46 @@ class SeedDataType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('uid')->add('oil_yield')->add('oilmeal_yield')->add('oil_price')->add('oilmeal_proce')->add('processing_cost')->add('usdrub')->add('updated_at');
+        $builder
+            //->add('uid')
+            ->add(
+                     'oil_yield'
+                    ,'Symfony\Component\Form\Extension\Core\Type\TextType'
+                    ,[
+                        'label' => "Выход масла,\n% от тонны переработанной семечки"
+            ])
+            ->add(
+                     'oilmeal_yield'
+                    ,'Symfony\Component\Form\Extension\Core\Type\TextType'
+                ,[
+                        'label' => "Выход шрота,\n% от тонны переработанной семечки"
+            ])
+            ->add(
+                     'oil_price'
+                    ,'Symfony\Component\Form\Extension\Core\Type\TextType'
+                    ,[
+                        'label' => "Цена на масло, USD на тонну"
+            ])
+            ->add(
+                     'oilmeal_price'
+                    ,'Symfony\Component\Form\Extension\Core\Type\TextType'
+                    ,[
+                        'label' => "Цена на шрот, USD на тонну"
+            ])
+            ->add(
+                     'processing_cost'
+                    ,'Symfony\Component\Form\Extension\Core\Type\TextType'
+                    ,[
+                        'label' => "Себестоимость переработки 1 тонны семян подсолнечника, руб. без НДС на тонну"
+            ])
+            ->add(
+                     'usdrub'
+                    ,'Symfony\Component\Form\Extension\Core\Type\TextType'
+                ,[
+                        'label' => "Курс USD/руб"
+            ])
+            //->add('updated_at')
+        ;
     }
     
     /**

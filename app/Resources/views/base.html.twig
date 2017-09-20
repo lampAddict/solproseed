@@ -13,7 +13,6 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <div id="topMenu">
                 {% block topMenu %}

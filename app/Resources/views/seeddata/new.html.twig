@@ -1,16 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Seeddatum creation</h1>
-
     {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+        <div class="login-container">
+            <h1>Ввод данных</h1>
+            {{ form_widget(form) }}
+            <div>
+                <label for="appbundle_seeddata_revenue">Выручка на 1 тонну семечки (масло + шрот)</label>
+                <input id="appbundle_seeddata_revenue" type="text" readonly="readonly" value="{{ revenue }}">
+            </div>
+            <input type="submit" class="login login-submit" value="Сохранить" />
+        </div>
     {{ form_end(form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('seeddata_index') }}">Back to the list</a>
-        </li>
-    </ul>
 {% endblock %}
