@@ -62,15 +62,40 @@ class IndexController extends Controller
         }
         //manager
         else if( $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') ){
+
+            $sql = 'SELECT COUNT(*) as num from deal';
+            $stmt = $em->getConnection()->prepare($sql);
+            $stmt->execute();
+            $deals = $stmt->fetchAll();
+
+            $dealNumber = 0;
+            if( !empty($deals) ){
+                $dealNumber = intval($deals[0]['num']) + 1;
+            }
+
+            $cDate = new \DateTime();
+            $seedData = $em
+                ->getRepository('AppBundle:SeedData')
+                ->createQueryBuilder('sd')
+                ->where('sd.updated_at <= :cdata')
+                ->setParameter('cdata', $cDate, \Doctrine\DBAL\Types\Type::DATETIME)
+                ->orderBy('sd.updated_at', 'DESC')
+                ->getQuery()
+                ->setMaxResults( 1 )
+                ->getResult();
+
             $form = $this->createForm('AppBundle\Form\DealType');
+
             return $this->render('deal/new.html.twig', [
                 'form' => $form->createView(),
+                'dealNumber' => $dealNumber,
+                'seedData' => $seedData
             ]);
         }
 
         // replace this example code with whatever you need
         return $this->render('index/index.html.twig', [
-            'param' => 'param',
+            'dealNumber' => 'dealNumber',
         ]);
     }
 }

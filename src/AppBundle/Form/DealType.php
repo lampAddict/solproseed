@@ -15,12 +15,12 @@ class DealType extends AbstractType
     {
         $builder
             //->add('uid')
-            ->add('deal_done')
-            ->add('seed_price')
-            ->add('delivery_price')
-            ->add('shipment_price')
-            ->add('storage_price')
-            ->add('oil_content')
+            //->add('deal_done')
+            ->add('seed_price', 'Symfony\Component\Form\Extension\Core\Type\TextType', ['label'=>'Цена закупки семечки на складе продавца, руб. без НДС на тонну'])
+            ->add('delivery_price', 'Symfony\Component\Form\Extension\Core\Type\TextType', ['label'=>'Стоимость доставки, руб. без НДС на тонну'])
+            ->add('shipment_price', 'Symfony\Component\Form\Extension\Core\Type\TextType', ['label'=>'Стоимость отгрузки, руб. без НДС на тонну'])
+            ->add('storage_price', 'Symfony\Component\Form\Extension\Core\Type\TextType', ['label'=>'Стоимость хранения, руб. без НДС на тонну'])
+            ->add('oil_content', 'Symfony\Component\Form\Extension\Core\Type\TextType', ['label'=>'Масличность семян подсолнечника, % от АСВ'])
             //->add('updated_at')
         ;
     }

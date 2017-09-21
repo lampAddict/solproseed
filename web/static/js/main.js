@@ -64,4 +64,56 @@ $( document ).ready(function(){
             $('#appbundle_seeddata_revenue').val( (((oilPrice - 15)*usdrub - 2000)*oilYield + (oilMealPrice*usdrub - 2000)*oilMealYield)/100 );
         });
     });
+
+    //manager main page
+    var updateSeedLogisticPrice = function(){
+        var
+            deliveryPrice = parseInt($('#appbundle_deal_delivery_price').val()) || 0,
+            shipmentPrice = parseInt($('#appbundle_deal_shipment_price').val()) || 0,
+            storagePrice = parseInt($('#appbundle_deal_storage_price').val()) || 0
+        ;
+        $('#appbundle_deal_logistic_price').val( (deliveryPrice + shipmentPrice + storagePrice*3) );
+        $('#appbundle_deal_logistic_price').change();
+    };
+
+    $('#appbundle_deal_delivery_price').change(updateSeedLogisticPrice);
+    $('#appbundle_deal_shipment_price').change(updateSeedLogisticPrice);
+    $('#appbundle_deal_storage_price').change(updateSeedLogisticPrice);
+
+    $('#appbundle_deal_logistic_price').change(function(){
+        var
+            purchasePrice = parseInt($('#appbundle_deal_seed_price').val()) || 0,
+            logisticPrice = parseInt($('#appbundle_deal_logistic_price').val()) || 0
+        ;
+        $('#appbundle_deal_seed_purchase_price').val( (purchasePrice + logisticPrice)*1.02 );
+    });
+
+    var $oilContent = $('#appbundle_deal_oil_content');
+    $oilContent.change(function(){
+        var oilContent = parseInt($oilContent.val())/100 || 0,
+            purchasePrice = parseInt($('#appbundle_deal_seed_price').val()) || 0,
+            logisticPrice = parseInt($('#appbundle_deal_logistic_price').val()) || 0,
+            price = 0
+        ;
+        if( oilContent > 0.48 ){
+            price = (oilContent - 0.48)*1.5*purchasePrice + purchasePrice;
+        }
+        else{
+            if( oilContent > 0.46 ){
+                price = purchasePrice;
+            }
+            else{
+                if( oilContent >= 0.43 ){
+                    price = purchasePrice - ( 0.46 - oilContent )*2*purchasePrice;
+                }
+                else{
+                    price = purchasePrice - ( 0.06 + ( 0.43 - oilContent )*3 )*purchasePrice;
+                }
+            }
+        }
+
+        $('#appbundle_deal_seed_purchase_price_oil').val( (price + logisticPrice)*1.02 );
+    });
+
+    //=(ЕСЛИ(B9>0.48,(B9-0.48)*1.5*B2+B2,ЕСЛИ(B9>0.46,B2,ЕСЛИ(B9>=0.43,B2-(0.46-B9)*2*B2,B2-(0.06+(0.43-B9)*3)*B2)))+B3)*1.02
 });

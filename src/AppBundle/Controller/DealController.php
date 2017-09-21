@@ -43,12 +43,15 @@ class DealController extends Controller
         $form = $this->createForm('AppBundle\Form\DealType', $deal);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if(
+               $form->isSubmitted()
+            && $form->isValid()
+        ){
             $em = $this->getDoctrine()->getManager();
             $em->persist($deal);
             $em->flush();
 
-            return $this->redirectToRoute('deal_show', array('id' => $deal->getId()));
+            return $this->redirectToRoute('mainpage');
         }
 
         return $this->render('deal/new.html.twig', array(
