@@ -1,53 +1,37 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Deals list</h1>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Uid</th>
-                <th>Deal_done</th>
-                <th>Seed_price</th>
-                <th>Delivery_price</th>
-                <th>Shipment_price</th>
-                <th>Storage_price</th>
-                <th>Oil_content</th>
-                <th>Updated_at</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for deal in deals %}
-            <tr>
-                <td><a href="{{ path('deal_show', { 'id': deal.id }) }}">{{ deal.id }}</a></td>
-                <td>{{ deal.uid }}</td>
-                <td>{% if deal.dealdone %}Yes{% else %}No{% endif %}</td>
-                <td>{{ deal.seedprice }}</td>
-                <td>{{ deal.deliveryprice }}</td>
-                <td>{{ deal.shipmentprice }}</td>
-                <td>{{ deal.storageprice }}</td>
-                <td>{{ deal.oilcontent }}</td>
-                <td>{{ deal.updatedat }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('deal_show', { 'id': deal.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('deal_edit', { 'id': deal.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('deal_new') }}">Create a new deal</a>
-        </li>
-    </ul>
+<div id="wrapper" data-user="{{ app.user.id }}">
+    <div id="container">
+        <h2>Список закрытых сделок</h2>
+        <table class="dealsList">
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Цена закупки семечки на складе продавца, руб. без НДС на тонну</th>
+                    <th>Стоимость доставки, руб. без НДС на тонну</th>
+                    <th>Стоимость отгрузки, руб. без НДС на тонну</th>
+                    <th>Стоимость хранения за 1 мес., руб. без НДС на тонну</th>
+                    <th>Масличность семян подсолнечника, % от АСВ</th>
+                    <th>Дата</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% set count = 1 %}
+            {% for deal in deals %}
+                <tr>
+                    <td><a href="{{ path('deal_edit', { 'id': deal.id }) }}">{{ count }}</a></td>
+                    <td>{{ deal.seedprice }}</td>
+                    <td>{{ deal.deliveryprice }}</td>
+                    <td>{{ deal.shipmentprice }}</td>
+                    <td>{{ deal.storageprice }}</td>
+                    <td>{{ deal.oilcontent }}</td>
+                    <td class="dealDate">{{ deal.updatedat | date("h:i:s d-m-Y") }}</td>
+                </tr>
+                {% set count = count + 1 %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

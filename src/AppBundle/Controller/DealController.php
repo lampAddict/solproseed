@@ -3,9 +3,11 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Deal;
+use AppBundle\Entity\SeedData;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Deal controller.
@@ -22,13 +24,23 @@ class DealController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        $data = $this->getSeedData();
 
-        $deals = $em->getRepository('AppBundle:Deal')->findAll();
+        $form = $this->createForm(
+            'AppBundle\Form\DealType'
+            ,null
+            ,[
+            'action' => $this->generateUrl('deal_new')
+            ,'method' => 'POST'
+        ]);
 
-        return $this->render('deal/index.html.twig', array(
-            'deals' => $deals,
-        ));
+        return $this->render('deal/new.html.twig', [
+            'form' => $form->createView(),
+            'dealNumber' => $data['dealNumber'],
+            'seedData' => $data['seedData'],
+            'alphaNumerator' => $this->calcAlphaNumerator($data['seedData']),
+            'omegaNumerator' => $this->calcRevenue($data['seedData'])
+        ]);
     }
 
     /**
@@ -74,6 +86,30 @@ class DealController extends Controller
     }
 
     /**
+     * Show users closed deals.
+     *
+     * @Route("/list", name="deals")
+     * @Method("GET")
+     */
+    public function listDealsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $deals = $em
+            ->getRepository('AppBundle:Deal')
+            ->createQueryBuilder('d')
+            ->where('d.uid <= :uid')
+            ->setParameter('uid', $this->getUser()->getId())
+            ->orderBy('d.updated_at', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+        return $this->render('deal/index.html.twig', array(
+            'deals' => $deals
+        ));
+    }
+
+    /**
      * Finds and displays a deal entity.
      *
      * @Route("/{id}", name="deal_show")
@@ -81,12 +117,13 @@ class DealController extends Controller
      */
     public function showAction(Deal $deal)
     {
-        $deleteForm = $this->createDeleteForm($deal);
-
-        return $this->render('deal/show.html.twig', array(
-            'deal' => $deal,
-            'delete_form' => $deleteForm->createView(),
-        ));
+        return $this->redirectToRoute('deals');
+//        $deleteForm = $this->createDeleteForm($deal);
+//
+//        return $this->render('deal/show.html.twig', array(
+//            'deal' => $deal,
+//            'delete_form' => $deleteForm->createView(),
+//        ));
     }
 
     /**
@@ -97,20 +134,26 @@ class DealController extends Controller
      */
     public function editAction(Request $request, Deal $deal)
     {
-        $deleteForm = $this->createDeleteForm($deal);
         $editForm = $this->createForm('AppBundle\Form\DealType', $deal);
         $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
+        if(
+               $editForm->isSubmitted()
+            && $editForm->isValid()
+        ){
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('deal_edit', array('id' => $deal->getId()));
+            return $this->redirectToRoute('deals');
         }
 
-        return $this->render('deal/edit.html.twig', array(
+        $data = $this->getSeedData();
+
+        return $this->render('deal/new.html.twig', array(
             'deal' => $deal,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'form' => $editForm->createView(),
+            'dealNumber' => $deal->getId(),
+            'seedData' => $data['seedData'],
+            'alphaNumerator' => $this->calcAlphaNumerator($data['seedData']),
+            'omegaNumerator' => $this->calcRevenue($data['seedData'])
         ));
     }
 
@@ -122,16 +165,17 @@ class DealController extends Controller
      */
     public function deleteAction(Request $request, Deal $deal)
     {
-        $form = $this->createDeleteForm($deal);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($deal);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('deal_index');
+        return $this->redirectToRoute('deals');
+//        $form = $this->createDeleteForm($deal);
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $em = $this->getDoctrine()->getManager();
+//            $em->remove($deal);
+//            $em->flush();
+//        }
+//
+//        return $this->redirectToRoute('deal_index');
     }
 
     /**
@@ -148,5 +192,47 @@ class DealController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    private function calcAlphaNumerator($seed_data){
+        /** @var $seed_data \AppBundle\Entity\SeedData */
+        return (intval($seed_data->getOilPrice()) - 15)*intval($seed_data->getUsdrub()) - 2000 + intval($seed_data->getOilmealPrice())*intval($seed_data->getUsdrub()) - 2000;
+        //((B12-15)*$B$16-2000)+(B13*$B$16-2000)
+    }
+
+    private function calcRevenue($seed_data){
+        /** @var $seed_data \AppBundle\Entity\SeedData */
+        return (((intval($seed_data->getOilPrice()) - 15)*intval($seed_data->getUsdrub()) - 2000)*floatval($seed_data->getOilYield()) + (intval($seed_data->getOilmealPrice())*intval($seed_data->getUsdrub()) - 2000)*floatval($seed_data->getOilmealYield()))/100;
+    }
+
+    private function getSeedData(){
+        $em = $this->getDoctrine()->getManager();
+
+        $sql = 'SELECT COUNT(*) as num from deal';
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+        $deals = $stmt->fetchAll();
+
+        $dealNumber = 0;
+        if( !empty($deals) ){
+            $dealNumber = intval($deals[0]['num']) + 1;
+        }
+
+        $cDate = new \DateTime();
+        $seedData = $em
+            ->getRepository('AppBundle:SeedData')
+            ->createQueryBuilder('sd')
+            ->where('sd.updated_at <= :cdata')
+            ->setParameter('cdata', $cDate, \Doctrine\DBAL\Types\Type::DATETIME)
+            ->orderBy('sd.updated_at', 'DESC')
+            ->getQuery()
+            ->setMaxResults( 1 )
+            ->getResult();
+
+        if( empty($seedData) ){
+            $seedData = [ new SeedData() ];
+        }
+
+        return ['dealNumber'=>$dealNumber, 'seedData'=>$seedData[0]];
     }
 }

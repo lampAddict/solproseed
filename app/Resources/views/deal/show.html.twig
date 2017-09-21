@@ -39,7 +39,7 @@
             </tr>
             <tr>
                 <th>Updated_at</th>
-                <td>{{ deal.updatedat }}</td>
+                <td>{{ deal.updatedat | date("h:i:s d-m-Y") }}</td>
             </tr>
         </tbody>
     </table>

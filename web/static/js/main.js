@@ -138,4 +138,6 @@ $( document ).ready(function(){
         $('#appbundle_deal_omega_bonus').val( ( omega - minOmega )*500 );
     });
 
+    $('#appbundle_deal_delivery_price').change();
+    $oilContent.change();
 });
