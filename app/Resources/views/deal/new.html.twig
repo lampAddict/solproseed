@@ -43,11 +43,19 @@
             </div>
 
             <div>
+                <label for="appbundle_deal_min_omega_coefficient">Минимум «Омега»</label>
+                <input id="appbundle_deal_min_omega_coefficient" type="text" readonly="readonly" value="1.11">
+            </div>
+
+            <div>
                 <label for="appbundle_deal_omega_bonus">Премия на 1 тонну за превышение коэф. «Омега»</label>
                 <input id="appbundle_deal_omega_bonus" type="text" readonly="readonly" value="0">
             </div>
 
             <input type="submit" class="login login-submit" value="Заключить сделку" />
+
+            <input id="alphaNumerator" type="hidden" value="{{ alphaNumerator }}" />
+            <input id="omegaNumerator" type="hidden" value="{{ omegaNumerator }}" />
         </div>
     {{ form_end(form) }}
 {% endblock %}

@@ -48,6 +48,19 @@ class DealController extends Controller
             && $form->isValid()
         ){
             $em = $this->getDoctrine()->getManager();
+
+            $data = $request->request->get('appbundle_deal');
+
+            /* @var $deal \AppBundle\Entity\Deal */
+            $deal->setUid( $this->getUser()->getId() );
+            $deal->setUpdatedAt( new \DateTime() );
+            $deal->setSeedPrice( $data['seed_price'] );
+            $deal->setDeliveryPrice( $data['delivery_price'] );
+            $deal->setShipmentPrice( $data['shipment_price'] );
+            $deal->setStoragePrice( $data['storage_price'] );
+            $deal->setOilContent( $data['oil_content'] );
+            $deal->setDealDone( true );
+
             $em->persist($deal);
             $em->flush();
 

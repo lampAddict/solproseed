@@ -43,7 +43,7 @@ class IndexController extends Controller
                 /** @var $seed_data \AppBundle\Entity\SeedData */
                 $seed_data = $seedData[0];
 
-                $revenue = (((intval($seed_data->getOilPrice()) - 15)*intval($seed_data->getUsdrub()) - 2000)*floatval($seed_data->getOilYield()) + (intval($seed_data->getOilmealPrice())*intval($seed_data->getUsdrub()) - 2000)*floatval($seed_data->getOilmealYield()))/100;
+                $revenue =  $this->calcRevenue($seed_data);
             }
 
             $form = $this->createForm(
@@ -84,18 +84,37 @@ class IndexController extends Controller
                 ->setMaxResults( 1 )
                 ->getResult();
 
-            $form = $this->createForm('AppBundle\Form\DealType');
-
-            return $this->render('deal/new.html.twig', [
-                'form' => $form->createView(),
-                'dealNumber' => $dealNumber,
-                'seedData' => $seedData
+            $form = $this->createForm(
+                     'AppBundle\Form\DealType'
+                    ,null
+                    ,[
+                         'action' => $this->generateUrl('deal_new')
+                        ,'method' => 'POST'
             ]);
+
+            if( !empty($seedData) )
+                return $this->render('deal/new.html.twig', [
+                    'form' => $form->createView(),
+                    'dealNumber' => $dealNumber,
+                    'seedData' => $seedData[0],
+                    'alphaNumerator' => $this->calcAlphaNumerator($seedData[0]),
+                    'omegaNumerator' => $this->calcRevenue($seedData[0])
+                ]);
         }
 
         // replace this example code with whatever you need
         return $this->render('index/index.html.twig', [
-            'dealNumber' => 'dealNumber',
         ]);
+    }
+
+    private function calcAlphaNumerator($seed_data){
+        /** @var $seed_data \AppBundle\Entity\SeedData */
+        return (intval($seed_data->getOilPrice()) - 15)*intval($seed_data->getUsdrub()) - 2000 + intval($seed_data->getOilmealPrice())*intval($seed_data->getUsdrub()) - 2000;
+        //((B12-15)*$B$16-2000)+(B13*$B$16-2000)
+    }
+
+    private function calcRevenue($seed_data){
+        /** @var $seed_data \AppBundle\Entity\SeedData */
+        return (((intval($seed_data->getOilPrice()) - 15)*intval($seed_data->getUsdrub()) - 2000)*floatval($seed_data->getOilYield()) + (intval($seed_data->getOilmealPrice())*intval($seed_data->getUsdrub()) - 2000)*floatval($seed_data->getOilmealYield()))/100;
     }
 }
