@@ -117,9 +117,6 @@ $( document ).ready(function(){
         $('#appbundle_deal_seed_purchase_price_oil').change();
     });
 
-    //=(ЕСЛИ(B9>0.48,(B9-0.48)*1.5*B2+B2,ЕСЛИ(B9>0.46,B2,ЕСЛИ(B9>=0.43,B2-(0.46-B9)*2*B2,B2-(0.06+(0.43-B9)*3)*B2)))+B3)*1.02
-    //(((B12-15)*$B$16-2000)+(B13*$B$16-2000))/B8
-
     $('#appbundle_deal_seed_purchase_price_oil').change(function(){
         var alphaNumerator = parseInt($('#alphaNumerator').val()) || 0;
         //calculate alpha coefficient
@@ -135,9 +132,14 @@ $( document ).ready(function(){
         omega = omegaNumerator / parseInt($(this).val());
 
         $('#appbundle_deal_omega_coefficient').val( omega );
-        $('#appbundle_deal_omega_bonus').val( ( omega - minOmega )*500 );
+        $('#appbundle_deal_omega_bonus').val( (parseFloat( omega - minOmega ).toFixed(2))*500 );
     });
 
+    $('#appbundle_deal_seed_price').change(function(){
+        $('#appbundle_deal_logistic_price').change();
+    });
+
+    //invoke form
     $('#appbundle_deal_delivery_price').change();
     $oilContent.change();
 });

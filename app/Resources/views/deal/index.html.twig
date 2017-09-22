@@ -7,28 +7,20 @@
         <table class="dealsList">
             <thead>
                 <tr>
-                    <th>№</th>
-                    <th>Цена закупки семечки на складе продавца, руб. без НДС на тонну</th>
-                    <th>Стоимость доставки, руб. без НДС на тонну</th>
-                    <th>Стоимость отгрузки, руб. без НДС на тонну</th>
-                    <th>Стоимость хранения за 1 мес., руб. без НДС на тонну</th>
-                    <th>Масличность семян подсолнечника, % от АСВ</th>
                     <th>Дата</th>
+                    <th>Цена закупки семечки, руб. на тонну</th>
+                    <th>Стоимость доставки/отгрузки/хранения за 1 мес. руб. на тонну</th>
+                    <th>Масличность, % от АСВ</th>
                 </tr>
             </thead>
             <tbody>
-            {% set count = 1 %}
             {% for deal in deals %}
                 <tr>
-                    <td><a href="{{ path('deal_edit', { 'id': deal.id }) }}">{{ count }}</a></td>
+                    <td class="dealDate"><a href="{{ path('deal_edit', { 'id': deal.id }) }}">{{ deal.updatedat | date("h:i:s d.m.Y") }}</a></td>
                     <td>{{ deal.seedprice }}</td>
-                    <td>{{ deal.deliveryprice }}</td>
-                    <td>{{ deal.shipmentprice }}</td>
-                    <td>{{ deal.storageprice }}</td>
-                    <td>{{ deal.oilcontent }}</td>
-                    <td class="dealDate">{{ deal.updatedat | date("h:i:s d-m-Y") }}</td>
+                    <td>{{ deal.deliveryprice }} / {{ deal.shipmentprice }} /  {{ deal.storageprice }}</td>
+                    <td class="dealOilContent">{{ deal.oilcontent }}</td>
                 </tr>
-                {% set count = count + 1 %}
             {% endfor %}
             </tbody>
         </table>

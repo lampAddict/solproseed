@@ -135,3 +135,6 @@ table tr td{
 .dealsList td{
     text-align: center;
 }
+.dealOilContent{
+    width: 50px;
+}
