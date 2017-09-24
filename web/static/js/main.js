@@ -94,8 +94,11 @@ $( document ).ready(function(){
         var oilContent = parseInt($oilContent.val())/100 || 0,
             purchasePrice = parseInt($('#appbundle_deal_seed_price').val()) || 0,
             logisticPrice = parseInt($('#appbundle_deal_logistic_price').val()) || 0,
+            oilProcessingCost = parseInt($('#oilProcessingCost').val()) || 0,
             price = 0
         ;
+
+        //(ЕСЛИ(B9>0.48,(B9-0.48)*1.5*B2+B2,ЕСЛИ(B9>0.46,B2,ЕСЛИ(B9>=0.43,B2-(0.46-B9)*2*B2,B2-(0.06+(0.43-B9)*3)*B2)))+B3)*1.02+B14
         if( oilContent > 0.48 ){
             price = (oilContent - 0.48)*1.5*purchasePrice + purchasePrice;
         }
@@ -113,26 +116,26 @@ $( document ).ready(function(){
             }
         }
 
-        $('#appbundle_deal_seed_purchase_price_oil').val( (price + logisticPrice)*1.02 );
+        $('#appbundle_deal_seed_purchase_price_oil').val( (price + logisticPrice)*1.02 + oilProcessingCost );
         $('#appbundle_deal_seed_purchase_price_oil').change();
     });
 
     $('#appbundle_deal_seed_purchase_price_oil').change(function(){
-        var alphaNumerator = parseInt($('#alphaNumerator').val()) || 0;
-        //calculate alpha coefficient
-        $('#appbundle_deal_alpha_coefficient').val( alphaNumerator / parseInt($(this).val()) );
-    });
-
-    $('#appbundle_deal_seed_purchase_price').change(function(){
         var omegaNumerator = parseInt($('#omegaNumerator').val()) || 0,
             minOmega = parseFloat($('#appbundle_deal_min_omega_coefficient').val());
-            omega = 0
+        omega = 0
         ;
         //calculate omega coefficient
         omega = omegaNumerator / parseInt($(this).val());
 
         $('#appbundle_deal_omega_coefficient').val( omega );
         $('#appbundle_deal_omega_bonus').val( (parseFloat( omega - minOmega ).toFixed(2))*500 );
+    });
+
+    $('#appbundle_deal_seed_purchase_price').change(function(){
+        var alphaNumerator = parseInt($('#alphaNumerator').val()) || 0;
+        //calculate alpha coefficient
+        $('#appbundle_deal_alpha_coefficient').val( alphaNumerator / parseInt($(this).val()) );
     });
 
     $('#appbundle_deal_seed_price').change(function(){

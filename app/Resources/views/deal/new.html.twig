@@ -23,7 +23,7 @@
             </div>
 
             <div>
-                <label for="appbundle_deal_seed_purchase_price_oil">Цена закупки семечки на заводе (с учетом масличности), руб. без НДС на тонну</label>
+                <label for="appbundle_deal_seed_purchase_price_oil">Цена закупки семечки на заводе (с учетом масличности и переработки), руб. без НДС на тонну</label>
                 <input id="appbundle_deal_seed_purchase_price_oil" type="text" readonly="readonly" value="0">
             </div>
 
@@ -44,7 +44,7 @@
 
             <div>
                 <label for="appbundle_deal_min_omega_coefficient">Минимум «Омега»</label>
-                <input id="appbundle_deal_min_omega_coefficient" type="text" readonly="readonly" value="1.11">
+                <input id="appbundle_deal_min_omega_coefficient" type="text" readonly="readonly" value="1.06">
             </div>
 
             <div>
@@ -56,6 +56,7 @@
 
             <input id="alphaNumerator" type="hidden" value="{{ alphaNumerator }}" />
             <input id="omegaNumerator" type="hidden" value="{{ omegaNumerator }}" />
+            <input id="oilProcessingCost" type="hidden" value="{{ seedData.getProcessingCost }}" />
         </div>
     {{ form_end(form) }}
 {% endblock %}
