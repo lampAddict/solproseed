@@ -21,6 +21,8 @@ class DealType extends AbstractType
             ->add('shipment_price', 'Symfony\Component\Form\Extension\Core\Type\TextType', ['label'=>'Стоимость отгрузки, руб. без НДС на тонну'])
             ->add('storage_price', 'Symfony\Component\Form\Extension\Core\Type\TextType', ['label'=>'Стоимость хранения, руб. без НДС на тонну'])
             ->add('oil_content', 'Symfony\Component\Form\Extension\Core\Type\TextType', ['label'=>'Масличность семян подсолнечника, % от АСВ'])
+            ->add('purchase_volume', 'Symfony\Component\Form\Extension\Core\Type\TextType', ['label'=>'Объём закупки, тонн'])
+            ->add('comment', 'Symfony\Component\Form\Extension\Core\Type\TextareaType', ['label'=>'Комментарий'])
             //->add('updated_at')
         ;
     }

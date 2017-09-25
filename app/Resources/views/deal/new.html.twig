@@ -7,49 +7,54 @@
 
             <div>
                 <label for="appbundle_deal_deal_number">Номер сделки в системе</label>
-                <input id="appbundle_deal_deal_number" type="text" readonly="readonly" value="{{ dealNumber }}">
+                <input id="appbundle_deal_deal_number" type="text" readonly="readonly" value="{{ dealNumber }}"/>
             </div>
 
             {{ form_widget(form) }}
 
             <div>
-                <label for="appbundle_deal_logistic_price">Логистика доставки семечки</label>
-                <input id="appbundle_deal_logistic_price" type="text" readonly="readonly" value="0">
+                <label for="appbundle_deal_logistic_price">Логистика доставки семечки, руб. без НДС на тонну</label>
+                <input id="appbundle_deal_logistic_price" type="text" readonly="readonly" value="0"/>
             </div>
 
             <div>
                 <label for="appbundle_deal_seed_purchase_price">Цена закупки семечки на заводе (цена+логистика), руб. без НДС на тонну</label>
-                <input id="appbundle_deal_seed_purchase_price" type="text" readonly="readonly" value="0">
+                <input id="appbundle_deal_seed_purchase_price" type="text" readonly="readonly" value="0"/>
             </div>
 
             <div>
                 <label for="appbundle_deal_seed_purchase_price_oil">Цена закупки семечки на заводе (с учетом масличности и переработки), руб. без НДС на тонну</label>
-                <input id="appbundle_deal_seed_purchase_price_oil" type="text" readonly="readonly" value="0">
+                <input id="appbundle_deal_seed_purchase_price_oil" type="text" readonly="readonly" value="0"/>
             </div>
 
-            <div>
-                <label for="appbundle_deal_efficiency_coefficient">Коэффициент эффективности сделки</label>
-                <input id="appbundle_deal_efficiency_coefficient" type="text" readonly="readonly" value="0">
-            </div>
+            {#<div>#}
+                {#<label for="appbundle_deal_efficiency_coefficient">Коэффициент эффективности сделки</label>#}
+                {#<input id="appbundle_deal_efficiency_coefficient" type="text" readonly="readonly" value="0">#}
+            {#</div>#}
 
             <div>
                 <label for="appbundle_deal_alpha_coefficient">Коэффициент «Альфа»</label>
-                <input id="appbundle_deal_alpha_coefficient" type="text" readonly="readonly" value="0">
+                <input id="appbundle_deal_alpha_coefficient" type="text" readonly="readonly" value="0"/>
             </div>
 
             <div>
                 <label for="appbundle_deal_omega_coefficient">Коэффициент «Омега»</label>
-                <input id="appbundle_deal_omega_coefficient" type="text" readonly="readonly" value="0">
+                <input id="appbundle_deal_omega_coefficient" type="text" readonly="readonly" value="0"/>
             </div>
 
             <div>
                 <label for="appbundle_deal_min_omega_coefficient">Минимум «Омега»</label>
-                <input id="appbundle_deal_min_omega_coefficient" type="text" readonly="readonly" value="1.06">
+                <input id="appbundle_deal_min_omega_coefficient" type="text" readonly="readonly" value="1.06"/>
             </div>
 
             <div>
-                <label for="appbundle_deal_omega_bonus">Премия на 1 тонну за превышение коэф. «Омега»</label>
-                <input id="appbundle_deal_omega_bonus" type="text" readonly="readonly" value="0">
+                <label for="appbundle_deal_min_omega_coefficient_excess">Превышение минимума «Омега»</label>
+                <input id="appbundle_deal_min_omega_coefficient_excess" type="text" value="0"/>
+            </div>
+
+            <div>
+                <label for="appbundle_deal_omega_bonus">Премия на 1 тонну за превышение коэф. «Омега», руб.</label>
+                <input id="appbundle_deal_omega_bonus" type="text" readonly="readonly" value="0"/>
             </div>
 
             <input type="submit" class="login login-submit" value="Заключить сделку" />

@@ -53,6 +53,16 @@ class Deal
     protected $oil_content;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    protected $purchase_volume;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    protected $comment;
+
+    /**
      * @ORM\Column(type="datetimetz")
      */
     protected $updated_at;

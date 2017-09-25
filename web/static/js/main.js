@@ -116,7 +116,7 @@ $( document ).ready(function(){
             }
         }
 
-        $('#appbundle_deal_seed_purchase_price_oil').val( (price + logisticPrice)*1.02 + oilProcessingCost );
+        $('#appbundle_deal_seed_purchase_price_oil').val( parseFloat((price + logisticPrice)*1.02 + oilProcessingCost).toFixed(3) );
         $('#appbundle_deal_seed_purchase_price_oil').change();
     });
 
@@ -129,20 +129,21 @@ $( document ).ready(function(){
         omega = omegaNumerator / parseInt($(this).val());
 
         $('#appbundle_deal_omega_coefficient').val( omega );
-        $('#appbundle_deal_omega_bonus').val( (parseFloat( omega - minOmega ).toFixed(2))*500 );
+        $('#appbundle_deal_min_omega_coefficient_excess').val( parseFloat( omega - minOmega ).toFixed(3) );
+        $('#appbundle_deal_omega_bonus').val( (parseFloat( omega - minOmega ).toFixed(3))*500 );
     });
 
     $('#appbundle_deal_seed_purchase_price').change(function(){
         var alphaNumerator = parseInt($('#alphaNumerator').val()) || 0;
         //calculate alpha coefficient
-        $('#appbundle_deal_alpha_coefficient').val( alphaNumerator / parseInt($(this).val()) );
+        $('#appbundle_deal_alpha_coefficient').val( parseFloat(alphaNumerator / parseInt($(this).val())).toFixed(3) );
     });
 
     $('#appbundle_deal_seed_price').change(function(){
         $('#appbundle_deal_logistic_price').change();
     });
 
-    //invoke form
+    //invoke form params
     $('#appbundle_deal_delivery_price').change();
     $oilContent.change();
 });
