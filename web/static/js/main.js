@@ -85,7 +85,7 @@ $( document ).ready(function(){
             purchasePrice = parseInt($('#appbundle_deal_seed_price').val()) || 0,
             logisticPrice = parseInt($('#appbundle_deal_logistic_price').val()) || 0
         ;
-        $('#appbundle_deal_seed_purchase_price').val( (purchasePrice + logisticPrice)*1.02 );
+        $('#appbundle_deal_seed_purchase_price').val( parseFloat((purchasePrice + logisticPrice)*1.02).toFixed(2) );
         $('#appbundle_deal_seed_purchase_price').change();
     });
 
@@ -116,27 +116,33 @@ $( document ).ready(function(){
             }
         }
 
-        $('#appbundle_deal_seed_purchase_price_oil').val( parseFloat((price + logisticPrice)*1.02 + oilProcessingCost).toFixed(3) );
+        $('#appbundle_deal_seed_purchase_price_oil').val( parseFloat((price + logisticPrice)*1.02 + oilProcessingCost).toFixed(2) );
         $('#appbundle_deal_seed_purchase_price_oil').change();
     });
 
     $('#appbundle_deal_seed_purchase_price_oil').change(function(){
-        var omegaNumerator = parseInt($('#omegaNumerator').val()) || 0,
-            minOmega = parseFloat($('#appbundle_deal_min_omega_coefficient').val());
-        omega = 0
+        var omegaNumeratorOil       = parseInt($('#omegaNumeratorOil').val()) || 0,
+            omegaNumeratorOilMeal   = parseInt($('#omegaNumeratorOilMeal').val()) || 0,
+            minOmega                = parseFloat($('#appbundle_deal_min_omega_coefficient').val()),
+            oilContent              = parseInt($oilContent.val()) || 0,
+            omega                   = 0,
+            oilYield                = 0,
+            oilMealYield            = 0
         ;
         //calculate omega coefficient
-        omega = omegaNumerator / parseInt($(this).val());
+        oilYield        = oilContent*0.91 - 1.2;
+        oilMealYield    = 81.5 - oilYield;
+        omega = ((omegaNumeratorOil * oilYield + omegaNumeratorOilMeal * oilMealYield) / 100) / parseInt($(this).val());
 
-        $('#appbundle_deal_omega_coefficient').val( omega );
-        $('#appbundle_deal_min_omega_coefficient_excess').val( parseFloat( omega - minOmega ).toFixed(3) );
-        $('#appbundle_deal_omega_bonus').val( (parseFloat( omega - minOmega ).toFixed(3))*500 );
+        $('#appbundle_deal_omega_coefficient').val( parseFloat( omega ).toFixed(2) );
+        $('#appbundle_deal_min_omega_coefficient_excess').val( parseFloat( omega - minOmega ).toFixed(2) );
+        $('#appbundle_deal_omega_bonus').val( (parseFloat( omega - minOmega ).toFixed(2))*500 );
     });
 
     $('#appbundle_deal_seed_purchase_price').change(function(){
         var alphaNumerator = parseInt($('#alphaNumerator').val()) || 0;
         //calculate alpha coefficient
-        $('#appbundle_deal_alpha_coefficient').val( parseFloat(alphaNumerator / parseInt($(this).val())).toFixed(3) );
+        $('#appbundle_deal_alpha_coefficient').val( parseFloat(alphaNumerator / parseInt($(this).val())).toFixed(2) );
     });
 
     $('#appbundle_deal_seed_price').change(function(){

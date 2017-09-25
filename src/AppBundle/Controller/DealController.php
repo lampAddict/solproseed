@@ -7,6 +7,8 @@ use AppBundle\Entity\SeedData;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -34,12 +36,15 @@ class DealController extends Controller
             ,'method' => 'POST'
         ]);
 
+        $omegaNumerator = $this->calcRevenue($data['seedData']);
+
         return $this->render('deal/new.html.twig', [
             'form' => $form->createView(),
             'dealNumber' => $data['dealNumber'],
             'seedData' => $data['seedData'],
             'alphaNumerator' => $this->calcAlphaNumerator($data['seedData']),
-            'omegaNumerator' => $this->calcRevenue($data['seedData'])
+            'omegaNumeratorOil' => $omegaNumerator['oilPrice$'],
+            'omegaNumeratorOilMeal' => $omegaNumerator['oilMealPrice$']
         ]);
     }
 
@@ -64,7 +69,7 @@ class DealController extends Controller
             $data = $request->request->get('appbundle_deal');
 
             /* @var $deal \AppBundle\Entity\Deal */
-            $deal->setUid( $this->getUser()->getId() );
+            $deal->setUid( $this->getUser() );
             $deal->setUpdatedAt( new \DateTime() );
             $deal->setSeedPrice( $data['seed_price'] );
             $deal->setDeliveryPrice( $data['delivery_price'] );
@@ -95,14 +100,27 @@ class DealController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $deals = $em
-            ->getRepository('AppBundle:Deal')
-            ->createQueryBuilder('d')
-            ->where('d.uid <= :uid')
-            ->setParameter('uid', $this->getUser()->getId())
-            ->orderBy('d.updated_at', 'DESC')
-            ->getQuery()
-            ->getResult();
+        //if user is admin get data about all deals stored in db
+        if( $this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN') ){
+            $deals = $em
+                ->getRepository('AppBundle:Deal')
+                ->createQueryBuilder('d')
+                ->leftJoin('AppBundle:User', 'u', 'WITH', 'u.id = d.uid')
+                ->orderBy('d.updated_at', 'DESC')
+                ->getQuery()
+                ->getResult();
+        }
+        //if user is manager get data only about his deals
+        elseif( $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') ){
+            $deals = $em
+                ->getRepository('AppBundle:Deal')
+                ->createQueryBuilder('d')
+                ->where('d.uid = :uid')
+                ->setParameter('uid', $this->getUser()->getId())
+                ->orderBy('d.updated_at', 'DESC')
+                ->getQuery()
+                ->getResult();
+        }
 
         return $this->render('deal/index.html.twig', array(
             'deals' => $deals
@@ -147,13 +165,16 @@ class DealController extends Controller
 
         $data = $this->getSeedData();
 
+        $omegaNumerator = $this->calcRevenue($data['seedData']);
+
         return $this->render('deal/new.html.twig', array(
             'deal' => $deal,
             'form' => $editForm->createView(),
             'dealNumber' => $deal->getId(),
             'seedData' => $data['seedData'],
             'alphaNumerator' => $this->calcAlphaNumerator($data['seedData']),
-            'omegaNumerator' => $this->calcRevenue($data['seedData'])
+            'omegaNumeratorOil' => $omegaNumerator['oilPrice$'],
+            'omegaNumeratorOilMeal' => $omegaNumerator['oilMealPrice$']
         ));
     }
 
@@ -202,7 +223,7 @@ class DealController extends Controller
 
     private function calcRevenue($seed_data){
         /** @var $seed_data \AppBundle\Entity\SeedData */
-        return (((intval($seed_data->getOilPrice()) - 15)*intval($seed_data->getUsdrub()) - 2000)*floatval($seed_data->getOilYield()) + (intval($seed_data->getOilmealPrice())*intval($seed_data->getUsdrub()) - 2000)*floatval($seed_data->getOilmealYield()))/100;
+        return ['oilPrice$'=>((intval($seed_data->getOilPrice()) - 15)*intval($seed_data->getUsdrub()) - 2000), 'oilMealPrice$'=>(intval($seed_data->getOilmealPrice())*intval($seed_data->getUsdrub()) - 2000)];
     }
 
     private function getSeedData(){

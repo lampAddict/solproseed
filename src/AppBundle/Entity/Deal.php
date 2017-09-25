@@ -18,7 +18,9 @@ class Deal
     protected $id;
 
     /**
-     * @ORM\Column(type="bigint")
+     * Many Deals have One Manager (User).
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="uid", referencedColumnName="id")
      */
     protected $uid;
 
@@ -267,5 +269,53 @@ class Deal
     public function getUpdatedAt()
     {
         return $this->updated_at;
+    }
+
+    /**
+     * Set purchaseVolume
+     *
+     * @param integer $purchaseVolume
+     *
+     * @return Deal
+     */
+    public function setPurchaseVolume($purchaseVolume)
+    {
+        $this->purchase_volume = $purchaseVolume;
+
+        return $this;
+    }
+
+    /**
+     * Get purchaseVolume
+     *
+     * @return integer
+     */
+    public function getPurchaseVolume()
+    {
+        return $this->purchase_volume;
+    }
+
+    /**
+     * Set comment
+     *
+     * @param string $comment
+     *
+     * @return Deal
+     */
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Get comment
+     *
+     * @return string
+     */
+    public function getComment()
+    {
+        return $this->comment;
     }
 }

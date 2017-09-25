@@ -8,18 +8,28 @@
             <thead>
                 <tr>
                     <th>Дата</th>
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        <th>Менеджер</th>
+                    {% endif %}
                     <th>Цена закупки семечки, руб. на тонну</th>
                     <th>Стоимость доставки/отгрузки/хранения за 1 мес. руб. на тонну</th>
                     <th>Масличность, % от АСВ</th>
+                    <th>Объём закупки</th>
+                    <th>Комментарий</th>
                 </tr>
             </thead>
             <tbody>
             {% for deal in deals %}
                 <tr>
                     <td class="dealDate"><a href="{{ path('deal_edit', { 'id': deal.id }) }}">{{ deal.updatedat | date("h:i:s d.m.Y") }}</a></td>
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        <td>{{ deal.uid.username }}</td>
+                    {% endif %}
                     <td>{{ deal.seedprice }}</td>
                     <td>{{ deal.deliveryprice }} / {{ deal.shipmentprice }} /  {{ deal.storageprice }}</td>
                     <td class="dealOilContent">{{ deal.oilcontent }}</td>
+                    <td>{{ deal.purchasevolume }}</td>
+                    <td>{{ deal.comment }}</td>
                 </tr>
             {% endfor %}
             </tbody>
