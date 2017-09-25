@@ -15,18 +15,18 @@ class SeedDataType extends AbstractType
     {
         $builder
             //->add('uid')
-            ->add(
-                     'oil_yield'
-                    ,'Symfony\Component\Form\Extension\Core\Type\TextType'
-                    ,[
-                        'label' => "Выход масла,\n% от тонны переработанной семечки"
-            ])
-            ->add(
-                     'oilmeal_yield'
-                    ,'Symfony\Component\Form\Extension\Core\Type\TextType'
-                ,[
-                        'label' => "Выход шрота,\n% от тонны переработанной семечки"
-            ])
+//            ->add(
+//                     'oil_yield'
+//                    ,'Symfony\Component\Form\Extension\Core\Type\TextType'
+//                    ,[
+//                        'label' => "Выход масла,\n% от тонны переработанной семечки"
+//            ])
+//            ->add(
+//                     'oilmeal_yield'
+//                    ,'Symfony\Component\Form\Extension\Core\Type\TextType'
+//                ,[
+//                        'label' => "Выход шрота,\n% от тонны переработанной семечки"
+//            ])
             ->add(
                      'oil_price'
                     ,'Symfony\Component\Form\Extension\Core\Type\TextType'

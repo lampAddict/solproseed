@@ -3,12 +3,12 @@
 {% block body %}
     {{ form_start(form) }}
         <div class="login-container">
-            <h1>Ввод данных</h1><br />
+            <h1>Ввод исходных данных для калькулятора эффективности закупки семян подсолнечника</h1><br />
             {{ form_widget(form) }}
-            <div>
-                <label for="appbundle_seeddata_revenue">Выручка на 1 тонну семечки (масло + шрот)</label>
-                <input id="appbundle_seeddata_revenue" type="text" readonly="readonly" value="{{ revenue }}">
-            </div>
+            {#<div>#}
+                {#<label for="appbundle_seeddata_revenue">Выручка на 1 тонну семечки (масло + шрот)</label>#}
+                {#<input id="appbundle_seeddata_revenue" type="text" readonly="readonly" value="{{ revenue }}">#}
+            {#</div>#}
             <input type="submit" class="login login-submit" value="Сохранить" />
         </div>
     {{ form_end(form) }}
