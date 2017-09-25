@@ -85,11 +85,12 @@ class SeedDataController extends Controller
     private function updateSeedData($seedDatum, $data){
         /* @var $seedDatum \AppBundle\Entity\SeedData */
         $seedDatum->setOilPrice( $data['oil_price'] );
-        $seedDatum->setOilYield( $data['oil_yield'] );
+//        $seedDatum->setOilYield( $data['oil_yield'] );
         $seedDatum->setOilmealPrice( $data['oilmeal_price'] );
-        $seedDatum->setOilmealYield( $data['oilmeal_yield'] );
+//        $seedDatum->setOilmealYield( $data['oilmeal_yield'] );
         $seedDatum->setProcessingCost( $data['processing_cost'] );
         $seedDatum->setUsdrub( $data['usdrub'] );
+        $seedDatum->setMinomega( $data['minomega'] );
         $seedDatum->setUpdatedAt( new \DateTime());
 
         return $seedDatum;

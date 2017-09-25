@@ -53,6 +53,11 @@ class SeedData
     protected $usdrub;
 
     /**
+     * @ORM\Column(type="float")
+     */
+    protected $minomega;
+
+    /**
      * @ORM\Column(type="datetimetz")
      */
     protected $updated_at;
@@ -257,5 +262,29 @@ class SeedData
     public function getOilmealPrice()
     {
         return $this->oilmeal_price;
+    }
+
+    /**
+     * Set minomega
+     *
+     * @param float $minomega
+     *
+     * @return SeedData
+     */
+    public function setMinomega($minomega)
+    {
+        $this->minomega = $minomega;
+
+        return $this;
+    }
+
+    /**
+     * Get minomega
+     *
+     * @return float
+     */
+    public function getMinomega()
+    {
+        return $this->minomega;
     }
 }
