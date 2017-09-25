@@ -23,12 +23,12 @@ class SeedData
     protected $uid;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     protected $oil_yield;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     protected $oilmeal_yield;
 
