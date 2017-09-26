@@ -191,24 +191,36 @@ $( document ).ready(function(){
     $('.prepareReport').click(function(e){
         var
              datePeriod = $('#datePeriod').val()
-            ,uids = []
+            ,uids = ''
+            ,url = 'prepare'
         ;
 
         $.each( $('.selectUser'), function(i,elt){
-            if( $(elt).is(':checked') )uids.push($(elt).attr('data-user'));
+            if( $(elt).is(':checked') )uids += $(elt).attr('data-user') + ',';
         });
+
+        params = {
+            uids: uids.substring(0, uids.length-1),
+            period: datePeriod
+        };
 
         $.ajax({
             method: 'POST',
-            url: 'prepareReports',
-            data: {
-                uids: uids,
-                period: datePeriod
-            }
+            url: url,
+            data: params
         })
-        .done(function( response ){
-            if( response.result ){
-
+        .done(function( response, status, request ){
+            var disp = request.getResponseHeader('Content-Disposition');
+            if(
+                   disp
+                && disp.search('attachment') != -1
+            ){
+                var form = $('<form method="POST" action="' + url + '">');
+                $.each(params, function(k, v) {
+                    form.append($('<input type="hidden" name="' + k + '" value="' + v + '">'));
+                });
+                $('body').append(form);
+                form.submit();
             }
         })
         .fail(function( response ){
