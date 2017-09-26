@@ -22,23 +22,13 @@ class AdminController extends Controller
         $users = $em
             ->getRepository('AppBundle:User')
             ->createQueryBuilder('u')
+            ->where('u.roles LIKE :roles')
+            ->setParameter('roles', '%ROLE_ADMIN%')
             ->getQuery()
             ->getResult();
 
-        $_users = [];
-        foreach ($users as $user){
-            /* @var $user \AppBundle\Entity\User */
-            $_users[] = [
-                'id'=>$user->getId()
-                ,'login'=>$user->getEmail()
-                ,'name'=>$user->getUsername()
-                ,'roles'=>$user->getRoles()
-                ,'active'=>($user->isEnabled()?1:0)
-            ];
-        }
-
         return $this->render('admin/reports.html.twig', [
-            'users'=>$_users
+            'users'=>$users
         ]);
     }
 

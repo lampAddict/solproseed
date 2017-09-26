@@ -21,10 +21,10 @@
                                 {% for user in users %}
                                     <tr>
                                         <td align="right">
-                                            {{ user['name'] }}
+                                            {{ user.username }}
                                         </td>
                                         <td align="left" style="width: 17px">
-                                            <input class="selectUser" type="checkbox" data-user="{{ user['id'] }}">
+                                            <input class="selectUser" type="checkbox" data-user="{{ user.id }}">
                                         </td>
                                     </tr>
                                 {% endfor %}
