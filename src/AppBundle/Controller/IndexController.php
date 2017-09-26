@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\AppBundle;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -38,12 +37,12 @@ class IndexController extends Controller
                 ->getResult();
 
             $seed_data = null;
-            $revenue = 0;
+//            $revenue = 0;
             if( !empty($seedData) ){
                 /** @var $seed_data \AppBundle\Entity\SeedData */
                 $seed_data = $seedData[0];
 
-                $revenue =  $this->calcRevenue($seed_data);
+//                $revenue =  $this->calcRevenue($seed_data);
             }
 
             $form = $this->createForm(
@@ -56,7 +55,7 @@ class IndexController extends Controller
 
             return $this->render('seeddata/new.html.twig', [
                 'form' => $form->createView(),
-                'revenue' => $revenue
+//                'revenue' => $revenue
             ]);
 
         }
@@ -70,8 +69,9 @@ class IndexController extends Controller
         ]);
     }
 
-    private function calcRevenue($seed_data){
-        /** @var $seed_data \AppBundle\Entity\SeedData */
-        return (((intval($seed_data->getOilPrice()) - 15)*intval($seed_data->getUsdrub()) - 2000)*floatval($seed_data->getOilYield()) + (intval($seed_data->getOilmealPrice())*intval($seed_data->getUsdrub()) - 2000)*floatval($seed_data->getOilmealYield()))/100;
-    }
+    //TODO:: need to refactor this function `oilYield` and `oilMealYield` data don't store in $seed_data anymore
+//    private function calcRevenue($seed_data){
+//        /** @var $seed_data \AppBundle\Entity\SeedData */
+//        return (((intval($seed_data->getOilPrice()) - 15)*intval($seed_data->getUsdrub()) - 2000)*floatval($seed_data->getOilYield()) + (intval($seed_data->getOilmealPrice())*intval($seed_data->getUsdrub()) - 2000)*floatval($seed_data->getOilmealYield()))/100;
+//    }
 }

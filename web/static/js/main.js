@@ -152,4 +152,69 @@ $( document ).ready(function(){
     //invoke form params
     $('#appbundle_deal_delivery_price').change();
     $oilContent.change();
+
+    //reports page
+    //date range picker
+    $('input[class="daterange"]').daterangepicker({
+        locale: {
+            format: 'DD.MM.YYYY',
+            "firstDay": 1,
+            "daysOfWeek": [
+                "Вс",
+                "Пн",
+                "Вт",
+                "Ср",
+                "Чт",
+                "Пт",
+                "Сб"
+
+            ],
+            "monthNames": [
+                "Январь",
+                "Февраль",
+                "Март",
+                "Апрель",
+                "Май",
+                "Июнь",
+                "Июль",
+                "Август",
+                "Сентябрь",
+                "Октябрь",
+                "Ноябрь",
+                "Декабрь"
+            ],
+            "applyLabel": "Выбрать период",
+            "cancelLabel": "Отмена",
+        },
+    });
+    //prepare report button
+    $('.prepareReport').click(function(e){
+        var
+             datePeriod = $('#datePeriod').val()
+            ,uids = []
+        ;
+
+        $.each( $('.selectUser'), function(i,elt){
+            if( $(elt).is(':checked') )uids.push($(elt).attr('data-user'));
+        });
+
+        $.ajax({
+            method: 'POST',
+            url: 'prepareReports',
+            data: {
+                uids: uids,
+                period: datePeriod
+            }
+        })
+        .done(function( response ){
+            if( response.result ){
+
+            }
+        })
+        .fail(function( response ){
+            console.log('FAILED to prepare report');
+            console.log(response);
+        });
+    });
+
 });
