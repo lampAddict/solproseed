@@ -66,6 +66,9 @@ $( document ).ready(function(){
     });
 
     //manager main page
+
+    $('#appbundle_deal_comment').attr('style','height:120px');
+
     var updateSeedLogisticPrice = function(){
         var
             deliveryPrice = parseInt($('#appbundle_deal_delivery_price').val()) || 0,
