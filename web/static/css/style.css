@@ -154,3 +154,12 @@ table tr td{
     width: 350px;
     margin: 0 auto;
 }
+
+.warning{
+    width: 350px;
+    margin: 0 auto;
+    background-color: rgba(201, 0, 3, 0.84);
+    color: whitesmoke;
+    font-size: 2.2em;
+    padding: 10px;
+}

@@ -8,15 +8,30 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class AdminController extends Controller
 {
     /**
+     * Checks if user allowed to do things
+     */
+    private function checkUserAuth(){
+        //Check if user authenticated
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
+
+        //Check user's role
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
+    }
+
+    /**
      * @Route("/reports/list", name="reports_list")
+     * @Method("GET")
      */
     public function reportsAction(Request $request)
     {
+        $this->checkUserAuth();
+
         $em = $this->getDoctrine()->getManager();
 
         $users = $em
@@ -34,9 +49,12 @@ class AdminController extends Controller
 
     /**
      * @Route("/reports/prepare", name="reports_prepare")
+     * @Method("POST")
      */
     public function prepareReportsAction(Request $request)
     {
+        $this->checkUserAuth();
+
         $period = $request->request->get('period');
         $uids = $request->request->get('uids');
 
