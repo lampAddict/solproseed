@@ -154,7 +154,6 @@ table tr td{
     width: 350px;
     margin: 0 auto;
 }
-
 .warning{
     width: 350px;
     margin: 0 auto;
@@ -163,7 +162,6 @@ table tr td{
     font-size: 2.2em;
     padding: 10px;
 }
-
 .calculated_field{
     background: lightgray !important;
     font-weight: bold;
