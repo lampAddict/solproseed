@@ -111,7 +111,6 @@ class AdminController extends Controller
 //            ->setCategory("Test result file")
             ;
 
-            $count = count($deals_data);
             $i = 1;
 
             $phpExcelObject->setActiveSheetIndex(0)
@@ -173,7 +172,7 @@ class AdminController extends Controller
 
                 $phpExcelObject->setActiveSheetIndex(0)
                     ->setCellValue('A' . $i, $deal['username'])
-                    ->setCellValue('B' . $i, $count)
+                    ->setCellValue('B' . $i, $deal['id'])
                     ->setCellValue('C' . $i, $dealData->format('H:i:s d.m.Y'))
                     ->setCellValue('D' . $i, $deal['seed_price'])
                     ->setCellValue('E' . $i, $deal['delivery_price'])
@@ -193,7 +192,6 @@ class AdminController extends Controller
                     ->setCellValue('R' . $i, round($omega - $seed_data['minomega'], 2)*500)
                 ;
 
-                $count--;
                 $i++;
             }
 
