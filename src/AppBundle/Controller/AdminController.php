@@ -202,7 +202,7 @@ class AdminController extends Controller
             // create the writer
             $writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel2007');
 
-            $path = __DIR__.'\..\..\..\web\reports\\';
+            $path = __DIR__.'/../../../web/reports/';
             $fileName = 'report_' . date('H_i_s_d_m_Y', time()) . '.xlsx';
             $writer->save($path.$fileName);
 
