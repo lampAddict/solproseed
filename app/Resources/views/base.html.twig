@@ -54,8 +54,11 @@
                             </li>
                         {% endif %}
 
+                        <li style="float:right">
+                            <a href="{{ logout_path('main') }}">Выход</a>
+                        </li>
                         <li class="loggedUser">
-                            Здравствуйте, {{ app.user.username }} <a href="{{ logout_path('main') }}">Выход</a>
+                            Здравствуйте, {{ app.user.username }}
                         </li>
 
                         <li class="icon">

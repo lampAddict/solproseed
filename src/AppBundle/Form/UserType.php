@@ -13,7 +13,10 @@ class UserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('username')->add('email');
+        $builder
+            ->add('username', 'Symfony\Component\Form\Extension\Core\Type\TextType', ['label'=>'Имя пользователя'])
+            ->add('email', 'Symfony\Component\Form\Extension\Core\Type\TextType', ['label'=>'Адрес электронной почты'])
+        ;
     }
 
     /**

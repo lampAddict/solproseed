@@ -102,11 +102,50 @@ ul.topnav li a {
 ul.topnav li a:hover {background-color: #555;}
 ul.topnav li a.active {background-color: #555; color: whitesmoke}
 ul.topnav li.icon {display: none;}
+
+@media screen and (max-width: 650px) {
+    ul.topnav li:not(:first-child) {display: none;}
+    ul.topnav li.icon {
+        float: right;
+        display: inline-block;
+    }
+}
+@media screen and (max-width: 650px) {
+    ul.topnav.responsive {position: relative;}
+    ul.topnav.responsive li.icon {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+    ul.topnav.responsive li {
+        float: none;
+        display: inline;
+    }
+    ul.topnav.responsive li a {
+        display: block;
+        text-align: left;
+    }
+}
+@media screen and (max-width: 920px) {
+    #mainContent{
+        width: 900px;
+    }
+}
+@media screen and (max-width: 450px) {
+    #mainContent{
+        width: 470px;
+    }
+}
+ul.topnav > li:nth-last-child(2)
+{
+    float:right;
+}
 .loggedUser{
-    padding-left: 50px;
     color: #fdfdfe;
     right: 0;
-    position: absolute;
+    display: inline-block;
+    padding: 14px 16px;
+    margin-top: 2px;
 }
 
 /*** USERS PAGE ***/

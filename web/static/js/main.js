@@ -8,7 +8,7 @@ function showMenuItems() {
 }
 
 $( document ).ready(function(){
-    //users page set role routine
+    //user's page, set role routine
     $('.btn.setUserRole').click(function(e){
         $.ajax({
             method: 'POST',
@@ -50,7 +50,7 @@ $( document ).ready(function(){
         });
     });
 
-    //admin main page
+    //admin's main page
     $.each($('#appbundle_seeddata input'), function(indx, elt){
         $(elt).change(function(){
             var revenue = 0,
@@ -65,8 +65,7 @@ $( document ).ready(function(){
         });
     });
 
-    //manager main page
-
+    //manager's main page
     $('#appbundle_deal_comment').attr('style','height:120px');
 
     var updateSeedLogisticPrice = function(){
@@ -101,7 +100,6 @@ $( document ).ready(function(){
             price = 0
         ;
 
-        //(ЕСЛИ(B9>0.48,(B9-0.48)*1.5*B2+B2,ЕСЛИ(B9>0.46,B2,ЕСЛИ(B9>=0.43,B2-(0.46-B9)*2*B2,B2-(0.06+(0.43-B9)*3)*B2)))+B3)*1.02+B14
         if( oilContent > 0.48 ){
             price = (oilContent - 0.48)*1.5*purchasePrice + purchasePrice;
         }
@@ -152,11 +150,11 @@ $( document ).ready(function(){
         $('#appbundle_deal_logistic_price').change();
     });
 
-    //invoke form params
+    //invoke form params for deal view
     $('#appbundle_deal_delivery_price').change();
     $oilContent.change();
 
-    //reports page
+    //report's page
     //date range picker
     $('input[class="daterange"]').daterangepicker({
         locale: {
@@ -190,7 +188,7 @@ $( document ).ready(function(){
             "cancelLabel": "Отмена",
         },
     });
-    //prepare report button
+    //prepare report button click handler
     $('.prepareReport').click(function(e){
         var
              datePeriod = $('#datePeriod').val()
