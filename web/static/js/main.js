@@ -139,13 +139,13 @@ $( document ).ready(function(){
 
         $('#appbundle_deal_omega_coefficient').val( parseFloat( omega ).toFixed(2) );
         $('#appbundle_deal_min_alpha_coefficient_excess').val( parseFloat( alpha - minOmega ).toFixed(2) );
-        $('#appbundle_deal_alpha_bonus').val( (parseFloat( alpha - minOmega ).toFixed(2))*baseReward );
+        $('#appbundle_deal_alpha_bonus').val( ( parseFloat( (alpha - minOmega)*baseReward )  + 20).toFixed(2) );
     });
 
     $('#appbundle_deal_seed_purchase_price').change(function(){
         var alphaNumerator = parseInt($('#alphaNumerator').val()) || 0;
         //calculate alpha coefficient
-        $('#appbundle_deal_alpha_coefficient').val( parseFloat(alphaNumerator / (parseInt($(this).val())*1.02)).toFixed(2) );
+        $('#appbundle_deal_alpha_coefficient').val( parseFloat(alphaNumerator / parseInt($(this).val())).toFixed(2) );
     });
 
     $('#appbundle_deal_seed_price').change(function(){
