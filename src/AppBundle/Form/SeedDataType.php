@@ -55,7 +55,7 @@ class SeedDataType extends AbstractType
                 'minomega'
                 ,'Symfony\Component\Form\Extension\Core\Type\TextType'
                 ,[
-                'label' => "Минимальное значение коэффициента \"Омега\""
+                'label' => "Минимум \"Альфа\""
             ])
             ->add(
                 'base_reward'
