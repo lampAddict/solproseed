@@ -3,7 +3,7 @@
 {% block body %}
     {{ form_start(form) }}
         <div class="login-container">
-            <h1>Данные сделки</h1><br />
+            <h1>Калькулятор эффективности закупки семян подсолнечника<br /></h1><h1>Данные сделки</h1><br />
 
             <div>
                 <label for="appbundle_deal_deal_number">Номер сделки в системе</label>
@@ -44,7 +44,7 @@
 
             <div>
                 <label for="appbundle_deal_min_omega_coefficient">Минимум «Омега»</label>
-                <input id="appbundle_deal_min_omega_coefficient" class="calculated_field" type="text" readonly="readonly" value="1.06"/>
+                <input id="appbundle_deal_min_omega_coefficient" class="calculated_field" type="text" readonly="readonly" value="{{ seedData.getMinOmega }}"/>
             </div>
 
             <div>
@@ -54,7 +54,7 @@
 
             <div>
                 <label for="appbundle_deal_omega_bonus">Премия на 1 тонну за превышение коэф. «Омега», руб.</label>
-                <input id="appbundle_deal_omega_bonus" class="calculated_field" type="text" readonly="readonly" value="{{ seedData.getMinOmega }}"/>
+                <input id="appbundle_deal_omega_bonus" class="calculated_field" type="text" readonly="readonly" value="0"/>
             </div>
 
             <input type="submit" class="login login-submit" value="Заключить сделку" />
@@ -63,6 +63,7 @@
             <input id="omegaNumeratorOil" type="hidden" value="{{ omegaNumeratorOil }}" />
             <input id="omegaNumeratorOilMeal" type="hidden" value="{{ omegaNumeratorOilMeal }}" />
             <input id="oilProcessingCost" type="hidden" value="{{ seedData.getProcessingCost }}" />
+            <input id="baseReward" type="hidden" value="{{ seedData.getBaseReward }}" />
         </div>
     {{ form_end(form) }}
 {% endblock %}

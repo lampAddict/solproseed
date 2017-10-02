@@ -91,6 +91,7 @@ class SeedDataController extends Controller
         $seedDatum->setProcessingCost( $data['processing_cost'] );
         $seedDatum->setUsdrub( $data['usdrub'] );
         $seedDatum->setMinomega( $data['minomega'] );
+        $seedDatum->setBaseReward( $data['base_reward'] );
         $seedDatum->setUpdatedAt( new \DateTime());
 
         return $seedDatum;

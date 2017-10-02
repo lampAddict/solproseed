@@ -49,13 +49,19 @@ class SeedDataType extends AbstractType
                      'usdrub'
                     ,'Symfony\Component\Form\Extension\Core\Type\TextType'
                 ,[
-                        'label' => "Курс USD/руб"
+                        'label' => "Курс USD/Руб."
             ])
             ->add(
                 'minomega'
                 ,'Symfony\Component\Form\Extension\Core\Type\TextType'
                 ,[
                 'label' => "Минимальное значение коэффициента \"Омега\""
+            ])
+            ->add(
+                'base_reward'
+                ,'Symfony\Component\Form\Extension\Core\Type\TextType'
+                ,[
+                'label' => "Базовая премия, руб."
             ])
             //->add('updated_at')
         ;

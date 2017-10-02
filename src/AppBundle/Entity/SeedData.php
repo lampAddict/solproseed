@@ -58,6 +58,11 @@ class SeedData
     protected $minomega;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    protected $base_reward;
+
+    /**
      * @ORM\Column(type="datetimetz")
      */
     protected $updated_at;
@@ -286,5 +291,29 @@ class SeedData
     public function getMinomega()
     {
         return $this->minomega;
+    }
+
+    /**
+     * Set baseReward
+     *
+     * @param integer $baseReward
+     *
+     * @return SeedData
+     */
+    public function setBaseReward($baseReward)
+    {
+        $this->base_reward = $baseReward;
+
+        return $this;
+    }
+
+    /**
+     * Get baseReward
+     *
+     * @return integer
+     */
+    public function getBaseReward()
+    {
+        return $this->base_reward;
     }
 }
