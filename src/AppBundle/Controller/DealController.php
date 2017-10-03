@@ -76,6 +76,7 @@ class DealController extends Controller
             $deal->setShipmentPrice( $data['shipment_price'] );
             $deal->setStoragePrice( $data['storage_price'] );
             $deal->setOilContent( $data['oil_content'] );
+            $deal->setComment( (isset($data['comment'])?$data['comment']:'') );
             $deal->setDealDone( true );
 
             $em->persist($deal);
