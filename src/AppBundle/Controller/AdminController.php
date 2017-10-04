@@ -140,22 +140,22 @@ class AdminController extends Controller
                 $dealData = new \DateTime( $deal['updated_at'] );
 
                 $deal_logistic_price = $deal['delivery_price'] + $deal['shipment_price'] + $deal['storage_price']*3;
-                $deal_seed_purchase_price = ($deal['seed_price'] + $deal_logistic_price)*1.02;
+                $deal_seed_purchase_price = $deal['seed_price'] + $deal_logistic_price;
 
-                $deal['oil_content'] = $deal['oil_content']/100;
-                if( $deal['oil_content'] > 0.48 ){
-                    $price = ($deal['oil_content'] - 0.48)*1.5*$deal['seed_price'] + $deal['seed_price'];
+                $oil_content = round($deal['oil_content']/100, 2);
+                if( $oil_content > 0.48 ){
+                    $price = ($oil_content - 0.48)*1.5*$deal['seed_price'] + $deal['seed_price'];
                 }
                 else{
-                    if( $deal['oil_content'] > 0.46 ){
+                    if( $oil_content > 0.46 ){
                         $price = $deal['seed_price'];
                     }
                     else{
-                        if( $deal['oil_content'] >= 0.43 ){
-                            $price = $deal['seed_price'] - ( 0.46 - $deal['oil_content'] )*2*$deal['seed_price'];
+                        if( $oil_content >= 0.43 ){
+                            $price = $deal['seed_price'] - ( 0.46 - $oil_content )*2*$deal['seed_price'];
                         }
                         else{
-                            $price = $deal['seed_price'] - ( 0.06 + ( 0.43 - $deal['oil_content'] )*3 )*$deal['seed_price'];
+                            $price = $deal['seed_price'] - ( 0.06 + ( 0.43 - $oil_content )*3 )*$deal['seed_price'];
                         }
                     }
                 }
@@ -166,7 +166,7 @@ class AdminController extends Controller
 
                 $alpha = ($omegaNumeratorOil + $omegaNumeratorOilMeal)/$deal_seed_purchase_price;
 
-                $oilYield        = $deal['oil_content']*100*0.91 - 1.2;
+                $oilYield        = $deal['oil_content']*0.91 - 1.2;
                 $oilMealYield    = 81.5 - $oilYield;
                 $omega = (($omegaNumeratorOil * $oilYield + $omegaNumeratorOilMeal * $oilMealYield) / 100) / $deal_seed_purchase_price_oil;
 
@@ -188,8 +188,8 @@ class AdminController extends Controller
                     ->setCellValue('N' . $i, round($alpha, 2))
                     ->setCellValue('O' . $i, round($omega, 2))
                     ->setCellValue('P' . $i, $seed_data['minomega'])
-                    ->setCellValue('Q' . $i, round($omega - $seed_data['minomega'], 2))
-                    ->setCellValue('R' . $i, round($omega - $seed_data['minomega'], 2)*500)
+                    ->setCellValue('Q' . $i, round($alpha - $seed_data['minomega'], 2))
+                    ->setCellValue('R' . $i, round($alpha - $seed_data['minomega'], 2)*$seed_data['base_reward'])
                 ;
 
                 $i++;
