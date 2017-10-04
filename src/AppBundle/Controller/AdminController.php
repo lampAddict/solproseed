@@ -130,9 +130,9 @@ class AdminController extends Controller
                 ->setCellValue('M' . $i, 'Цена закупки семечки на заводе (с учетом масличности и переработки), руб. без НДС на тонну')
                 ->setCellValue('N' . $i, 'Коэффициент «Альфа»')
                 ->setCellValue('O' . $i, 'Коэффициент «Омега»')
-                ->setCellValue('P' . $i, 'Минимум «Омега»')
-                ->setCellValue('Q' . $i, 'Превышение минимума «Омега»')
-                ->setCellValue('R' . $i, 'Премия на 1 тонну за превышение коэф. «Омега», руб.')
+                ->setCellValue('P' . $i, 'Минимум «Альфа»')
+                ->setCellValue('Q' . $i, 'Превышение минимума «Альфа»')
+                ->setCellValue('R' . $i, 'Премия на 1 тонну за превышение коэф. «Альфа», руб.')
             ;
             $i++;
             foreach( $deals_data as $deal ){
