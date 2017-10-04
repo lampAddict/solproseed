@@ -11,6 +11,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\User;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
@@ -54,7 +55,7 @@ class RegistrationController extends Controller
         $event = new GetResponseUserEvent($user, $request);
         $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, $event);
 
-        if (null !== $event->getResponse()) {
+        if( null !== $event->getResponse() ){
             return $event->getResponse();
         }
 
@@ -63,8 +64,8 @@ class RegistrationController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
+        if( $form->isSubmitted() ){
+            if( $form->isValid() ){
                 //$event = new FormEvent($form, $request);
                 //$dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
 
@@ -84,7 +85,7 @@ class RegistrationController extends Controller
             $event = new FormEvent($form, $request);
             $dispatcher->dispatch(FOSUserEvents::REGISTRATION_FAILURE, $event);
 
-            if (null !== $response = $event->getResponse()) {
+            if( null !== $response = $event->getResponse() ){
                 return $response;
             }
         }

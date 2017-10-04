@@ -11,6 +11,8 @@
                 <tr>
                     <th>Пользователь</th>
                     <th>e-mail</th>
+                    <th>Руководитель</th>
+                    <th>Берег</th>
                     <th>Роли</th>
                     <th>Назначить</th>
                     <th>Снять</th>
@@ -23,6 +25,8 @@
                     <tr>
                         <td align="center"><a href="{{ path('user_edit', { 'id': user['id'] }) }}">{{ user['name'] }}</a></td>
                         <td align="center">{{ user['login'] }}</td>
+                        <td align="center">{{ user['boss'] }}</td>
+                        <td align="center">{{ user['border'] }}</td>
                         <td align="center" class="roles-{{ user['id'] }}">
                             {% if user['roles'] is not empty %}
                                 <table cellpadding="0" cellspacing="0" class="userRolesTbl">

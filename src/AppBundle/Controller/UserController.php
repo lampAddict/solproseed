@@ -127,6 +127,8 @@ class UserController extends Controller
                  'id'=>$user->getId()
                 ,'login'=>$user->getEmail()
                 ,'name'=>$user->getUsername()
+                ,'boss'=>$user->getBoss()
+                ,'border'=>$user->getBorder()
                 ,'roles'=>$user->getRoles()
                 ,'active'=>($user->isEnabled()?1:0)
             ];

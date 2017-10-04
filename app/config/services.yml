@@ -33,6 +33,11 @@ services:
         class: AppBundle\Security\AccessDeniedHandler
         arguments: [ "@router" ]
 
+    app.form.registration:
+        class: AppBundle\Form\UserRegistrationType
+        tags:
+            - { name: form.type, alias: app_user_registration }
+
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:
     #     arguments:

@@ -15,6 +15,8 @@ class UserType extends AbstractType
     {
         $builder
             ->add('username', 'Symfony\Component\Form\Extension\Core\Type\TextType', ['label'=>'Имя пользователя'])
+            ->add('boss', 'Symfony\Component\Form\Extension\Core\Type\TextType', ['label'=>'Руководитель'])
+            ->add('border', 'Symfony\Component\Form\Extension\Core\Type\TextType', ['label'=>'Берег'])
             ->add('email', 'Symfony\Component\Form\Extension\Core\Type\TextType', ['label'=>'Адрес электронной почты'])
         ;
     }

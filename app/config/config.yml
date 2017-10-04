@@ -76,3 +76,6 @@ fos_user:
     from_email:
         address: "makarov@itehnik.ru"
         sender_name: "Roman Makarov"
+    registration:
+        form:
+            type: AppBundle\Form\UserRegistrationType
